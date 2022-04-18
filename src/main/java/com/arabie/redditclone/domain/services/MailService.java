@@ -20,6 +20,10 @@ public class MailService {
     private final MailContentBuilder mailContentBuilder;
 
     @Async
+    public void sendEmailAsync(NotificationEmail notificationEmail) {
+        sendEmail(notificationEmail);
+    }
+
     public void sendEmail(NotificationEmail notificationEmail) {
         MimeMessagePreparator mimeMessagePreparator = mimeMessage -> {
             var mimeMessageHelper = new MimeMessageHelper(mimeMessage);
@@ -33,6 +37,7 @@ public class MailService {
             javaMailSender.send(mimeMessagePreparator);
             log.info("Activation Email Sent!!");
         } catch (MailException e) {
+            e.printStackTrace();
             throw new SpringRedditException("Exception happened while sending an email to " + notificationEmail.getRecipient(), HttpStatus.FAILED_DEPENDENCY);
         }
     }
