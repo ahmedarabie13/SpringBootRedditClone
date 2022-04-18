@@ -1,6 +1,6 @@
 package com.arabie.redditclone.domain.services;
 
-import com.arabie.redditclone.domain.exceptions.SpringRedditException;
+import com.arabie.redditclone.exceptions.SpringRedditException;
 import com.arabie.redditclone.domain.models.NotificationEmail;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

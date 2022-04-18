@@ -1,7 +1,7 @@
 package com.arabie.redditclone.resources.controllers;
 
 import com.arabie.redditclone.domain.dtos.UserRegisterDto;
-import com.arabie.redditclone.domain.services.AuthService;
+import com.arabie.redditclone.domain.services.auth.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

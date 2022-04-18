@@ -1,7 +1,7 @@
-package com.arabie.redditclone.domain.services;
+package com.arabie.redditclone.domain.services.auth;
 
 import com.arabie.redditclone.domain.dtos.UserRegisterDto;
-import com.arabie.redditclone.domain.exceptions.SpringRedditException;
+import com.arabie.redditclone.exceptions.SpringRedditException;
 import com.arabie.redditclone.domain.mappers.UserMapper;
 import com.arabie.redditclone.domain.models.NotificationEmail;
 import com.arabie.redditclone.domain.models.User;
@@ -11,7 +11,6 @@ import com.arabie.redditclone.domain.repos.VerificationTokenRepo;
 import com.arabie.redditclone.proxy.MailRequestPublisher;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.arabie.redditclone.domain.exceptions;
+package com.arabie.redditclone.exceptions;
 
 import org.springframework.http.HttpStatus;
 
