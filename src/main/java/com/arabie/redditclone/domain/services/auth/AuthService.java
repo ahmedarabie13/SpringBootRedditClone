@@ -1,17 +1,21 @@
 package com.arabie.redditclone.domain.services.auth;
 
+import com.arabie.redditclone.domain.dtos.AuthenticationResponseDto;
+import com.arabie.redditclone.domain.dtos.UserLoginDto;
 import com.arabie.redditclone.domain.dtos.UserRegisterDto;
-import com.arabie.redditclone.exceptions.SpringRedditException;
 import com.arabie.redditclone.domain.mappers.UserMapper;
 import com.arabie.redditclone.domain.models.NotificationEmail;
 import com.arabie.redditclone.domain.models.User;
 import com.arabie.redditclone.domain.models.VerificationToken;
 import com.arabie.redditclone.domain.repos.UserRepo;
 import com.arabie.redditclone.domain.repos.VerificationTokenRepo;
+import com.arabie.redditclone.exceptions.SpringRedditException;
 import com.arabie.redditclone.proxy.MailRequestPublisher;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -22,11 +26,14 @@ import java.util.UUID;
 @Slf4j
 public class AuthService {
     private final UserMapper userMapper;
-    //    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final JwtProviderService jwtProviderService;
     private final UserRepo userRepo;
     private final VerificationTokenRepo verificationTokenRepo;
-//    private final MailService mailService;  commented to allow sending through rabbitmq
     private final MailRequestPublisher publisher;
+
+    //    private final MailService mailService;  commented to allow sending through rabbitmq
+
     @Transactional
     public void register(UserRegisterDto userRegisterDto) {
         verifyUsername(userRegisterDto.getUsername());
@@ -78,5 +85,19 @@ public class AuthService {
         }
         user.setEnabled(Boolean.TRUE);
         userRepo.save(user);
+    }
+
+    public AuthenticationResponseDto login(UserLoginDto userLoginDto) {
+        log.info(userLoginDto.toString());
+        var token = userMapper.toUsernamePasswordAuthToken(userLoginDto);
+        log.info(token.toString());
+        var authentication = authenticationManager.authenticate(token);
+        log.info(authentication.toString());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        var jwt = jwtProviderService.generateToken(authentication);
+        return AuthenticationResponseDto.builder()
+                .authenticationToken(jwt)
+                .username(userLoginDto.getUsername())
+                .build();
     }
 }

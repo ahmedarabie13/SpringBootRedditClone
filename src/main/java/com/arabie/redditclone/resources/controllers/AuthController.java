@@ -1,5 +1,7 @@
 package com.arabie.redditclone.resources.controllers;
 
+import com.arabie.redditclone.domain.dtos.AuthenticationResponseDto;
+import com.arabie.redditclone.domain.dtos.UserLoginDto;
 import com.arabie.redditclone.domain.dtos.UserRegisterDto;
 import com.arabie.redditclone.domain.services.auth.AuthService;
 import lombok.AllArgsConstructor;
@@ -20,5 +22,10 @@ public class AuthController {
     public ResponseEntity<String> verifyAccount(@PathVariable String token){
         authService.verifyAccount(token);
         return ResponseEntity.ok("Account Activated Successfully");
+    }
+    @PostMapping("/login")
+    public ResponseEntity<AuthenticationResponseDto> login(@RequestBody UserLoginDto userLoginDto){
+        var response = authService.login(userLoginDto);
+        return ResponseEntity.ok(response);
     }
 }

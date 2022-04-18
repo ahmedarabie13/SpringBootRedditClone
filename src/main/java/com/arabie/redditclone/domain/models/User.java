@@ -2,9 +2,7 @@ package com.arabie.redditclone.domain.models;
 
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -19,6 +17,7 @@ import java.time.Instant;
 @Builder
 @Entity
 @DynamicUpdate
+@ToString
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
