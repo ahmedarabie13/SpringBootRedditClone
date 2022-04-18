@@ -8,8 +8,10 @@ import com.arabie.redditclone.domain.models.User;
 import com.arabie.redditclone.domain.models.VerificationToken;
 import com.arabie.redditclone.domain.repos.UserRepo;
 import com.arabie.redditclone.domain.repos.VerificationTokenRepo;
+import com.arabie.redditclone.proxy.MailRequestPublisher;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +26,8 @@ public class AuthService {
     //    private final PasswordEncoder passwordEncoder;
     private final UserRepo userRepo;
     private final VerificationTokenRepo verificationTokenRepo;
-    private final MailService mailService;
-
+//    private final MailService mailService;  commented to allow sending through rabbitmq
+    private final MailRequestPublisher publisher;
     @Transactional
     public void register(UserRegisterDto userRegisterDto) {
         verifyUsername(userRegisterDto.getUsername());
@@ -39,7 +41,8 @@ public class AuthService {
                 .body("Thank you For Signing up with us, " +
                         "please click on the below url to activate your account: " +
                         "http://localhost:8080/api/auth/accountVerification/" + token).build();
-        mailService.sendEmail(notificationEmail);
+        publisher.publishEmail(notificationEmail);
+//        mailService.sendEmail(notificationEmail);   commented to allow sending through rabbitmq
     }
 
     private String generateVerificationToken(User user) {
