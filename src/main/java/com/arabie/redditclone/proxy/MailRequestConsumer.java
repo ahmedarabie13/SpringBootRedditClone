@@ -17,8 +17,9 @@ public class MailRequestConsumer {
     private String queueName;
     private final MailService mailService;
     private final NotificationEmailMapper mapper;
+
     @RabbitListener(queues = "${rabbitmq.config.queueName}")
-    public void getEmailDetails(NotificationEmailDto emailDto){
+    public void getEmailDetails(NotificationEmailDto emailDto) {
         log.info("Email Consumed Successfully");
         mailService.sendEmail(mapper.toEntity(emailDto));
     }

@@ -31,7 +31,7 @@ public class SecurityUtils {
     }
 
     @Bean
-    public JwtEncoder getJwtEncoder(){
+    public JwtEncoder getJwtEncoder() {
         var jwk = new RSAKey.Builder(publicKey).privateKey(privateKey).build();
         var jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
         return new NimbusJwtEncoder(jwks);

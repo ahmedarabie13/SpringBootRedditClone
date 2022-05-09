@@ -25,8 +25,8 @@ public class MailRequestPublisher {
         this.mapper = mapper;
     }
 
-    public void publishEmail(NotificationEmail email){
-        template.convertAndSend(exchange,routingKey,mapper.toDto(email));
+    public void publishEmail(NotificationEmail email) {
+        template.convertAndSend(exchange, routingKey, mapper.toDto(email));
         log.info("Email Published Successfully");
     }
 }

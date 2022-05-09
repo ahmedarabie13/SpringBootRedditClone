@@ -13,18 +13,21 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class AuthController {
     private final AuthService authService;
+
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody UserRegisterDto userRegisterDto){
+    public ResponseEntity<String> register(@RequestBody UserRegisterDto userRegisterDto) {
         authService.register(userRegisterDto);
         return ResponseEntity.ok("Successful User Registration");
     }
+
     @GetMapping("accountVerification/{token}")
-    public ResponseEntity<String> verifyAccount(@PathVariable String token){
+    public ResponseEntity<String> verifyAccount(@PathVariable String token) {
         authService.verifyAccount(token);
         return ResponseEntity.ok("Account Activated Successfully");
     }
+
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponseDto> login(@RequestBody UserLoginDto userLoginDto){
+    public ResponseEntity<AuthenticationResponseDto> login(@RequestBody UserLoginDto userLoginDto) {
         var response = authService.login(userLoginDto);
         return ResponseEntity.ok(response);
     }

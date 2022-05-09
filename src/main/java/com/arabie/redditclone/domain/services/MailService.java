@@ -1,7 +1,7 @@
 package com.arabie.redditclone.domain.services;
 
-import com.arabie.redditclone.exceptions.SpringRedditException;
 import com.arabie.redditclone.domain.models.NotificationEmail;
+import com.arabie.redditclone.exceptions.SpringRedditException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
