@@ -1,6 +1,8 @@
 package com.arabie.redditclone.domain.models;
 
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -13,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
+//@DynamicUpdate
 public class Subreddit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +26,7 @@ public class Subreddit {
     private String description;
     @OneToMany(fetch = FetchType.LAZY)
     private List<Post> posts;
+    @CreatedDate
     private Instant createdDate;
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;

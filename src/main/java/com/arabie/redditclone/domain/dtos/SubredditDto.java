@@ -1,6 +1,7 @@
 package com.arabie.redditclone.domain.dtos;
 
 import lombok.*;
+import org.springframework.data.annotation.ReadOnlyProperty;
 
 @Getter
 @Setter
