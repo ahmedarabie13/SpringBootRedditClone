@@ -5,6 +5,7 @@ import com.arabie.redditclone.domain.repos.SubredditRepo;
 import com.arabie.redditclone.exceptions.SpringRedditException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,11 @@ public class SubredditService {
     }
 
     public void deleteById(Long id) {
-        repo.deleteById(id);
+        try {
+            repo.deleteById(id);
+        }catch (EmptyResultDataAccessException e){
+            throw new SpringRedditException("No Subreddits found To Be Deleted",HttpStatus.NOT_FOUND);
+        }
     }
 
     public Subreddit update(Long id, Subreddit subreddit) {
