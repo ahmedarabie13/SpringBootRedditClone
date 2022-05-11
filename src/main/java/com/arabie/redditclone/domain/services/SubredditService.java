@@ -10,8 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,12 +24,14 @@ public class SubredditService {
         return repo.save(subreddit);
     }
 
+    @Transactional(readOnly = true)
     public Subreddit getById(Long id) {
         return repo.findById(id).orElseThrow(() -> {
             throw new SpringRedditException("Subreddit is Not Found", HttpStatus.NOT_FOUND);
         });
     }
 
+    @Transactional
     public void deleteById(Long id) {
         try {
             repo.deleteById(id);
@@ -38,6 +40,7 @@ public class SubredditService {
         }
     }
 
+    @Transactional
     public Subreddit update(Long id, Subreddit subreddit) {
         repo.findById(id).orElseThrow(() -> {
             throw new SpringRedditException("Subreddit is Not Found", HttpStatus.NOT_FOUND);
@@ -45,6 +48,7 @@ public class SubredditService {
         return repo.save(subreddit);
     }
 
+    @Transactional(readOnly = true)
     public Page<Subreddit> getAllSubreddits(PageRequest pageRequest) {
         return repo.findAll(pageRequest);
     }
