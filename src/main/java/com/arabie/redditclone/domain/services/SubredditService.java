@@ -26,11 +26,9 @@ public class SubredditService {
 
     @Transactional(readOnly = true)
     public Subreddit getById(Long id) {
-        var subreddit = repo.findById(id).orElseThrow(() -> {
+        return repo.findById(id).orElseThrow(() -> {
             throw new SpringRedditException("Subreddit is Not Found", HttpStatus.NOT_FOUND);
         });
-        log.info("Number of posts in subreddit: "+subreddit.getPosts().size());
-        return subreddit;
     }
 
     @Transactional
