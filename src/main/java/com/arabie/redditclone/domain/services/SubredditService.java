@@ -25,9 +25,11 @@ public class SubredditService {
     }
 
     public Subreddit getById(Long id) {
-        return repo.findById(id).orElseThrow(() -> {
+        var subreddit = repo.findById(id).orElseThrow(() -> {
             throw new SpringRedditException("Subreddit is Not Found", HttpStatus.NOT_FOUND);
         });
+        log.info("Number of posts in subreddit: "+subreddit.getPosts().size());
+        return subreddit;
     }
 
     public void deleteById(Long id) {
@@ -47,5 +49,11 @@ public class SubredditService {
 
     public Page<Subreddit> getAllSubreddits(PageRequest pageRequest) {
         return repo.findAll(pageRequest);
+    }
+
+    public Subreddit getByName(String subredditName) {
+        return repo.findByName(subredditName).orElseThrow(() -> {
+            throw new SpringRedditException("Subreddit is Not Found", HttpStatus.NOT_FOUND);
+        });
     }
 }

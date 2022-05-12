@@ -15,7 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-//@DynamicUpdate
 public class Subreddit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +23,7 @@ public class Subreddit {
     private String name;
     @NotBlank(message = "Description Cannot be empty or NULL")
     private String description;
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "subreddit")
     private List<Post> posts;
     @CreatedDate
     private Instant createdDate;
