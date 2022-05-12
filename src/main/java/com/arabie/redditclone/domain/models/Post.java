@@ -27,11 +27,11 @@ public class Post {
     private String description;
     private Integer voteCount;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId", referencedColumnName = "id")
+    @JoinColumn(name = "user_Id", referencedColumnName = "id")
     private User user;
     private Instant createdDate;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "subredditId", referencedColumnName = "id")
+    @JoinColumn(name = "subreddit_Id", referencedColumnName = "id")
     private Subreddit subreddit;
 
 }
