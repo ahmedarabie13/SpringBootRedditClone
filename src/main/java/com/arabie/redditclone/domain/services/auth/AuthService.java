@@ -15,10 +15,11 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.UUID;
 
 @Service
@@ -100,4 +101,12 @@ public class AuthService {
                 .username(userLoginDto.getUsername())
                 .build();
     }
+
+    @Transactional(readOnly = true)
+    public User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return userRepo.findByUsername(authentication.getName())
+                .orElseThrow(() -> new SpringRedditException("User name not found - " + authentication.getName(), HttpStatus.NOT_FOUND));
+    }
+
 }
